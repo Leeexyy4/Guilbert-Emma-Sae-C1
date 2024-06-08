@@ -275,7 +275,16 @@ class Interface:
         self.set_nb_ia(-1)
         image.Image(0,0,image.Page.CHOIX_NB_IA.value).affichage_image_redimensionnee(800, 700,self.get_fenetre())
         pygame.draw.rect(self.get_fenetre(),self.get_couleur().get_Gris(),(10,580,780,102))
-    
+
+        if self.get_nb_joueur() != 4:
+            # Texte pour choisir le nombre de joueur
+            self.set_dialogues(["Combien d'IA souhaites-tu intégrer au jeu ?"])
+            self.draw_dialogues_deb()
+            #texte.Texte("Combien d'IA souhaites-tu intégrer au jeu ?", self.get_couleur().get_Noir(), 30,600).affiche(self.get_police(),self.get_fenetre())
+        else:
+            self.set_dialogues(["Le nombre de joueurs est complet tu ne peux pas ajouter d'IA"])
+            self.draw_dialogues_deb()
+            # texte.Texte("Le nombre de joueurs est complet tu ne peux pas ajouter d'IA", self.get_couleur().get_Noir(), 30,600).affiche(self.get_police(),self.get_fenetre())
         if self.get_nb_joueur() == 1:
             image.Image(400,595,image.BtnMenu.BTN_0.value).affiche(self.get_fenetre())
             image.Image(500,595,image.BtnMenu.BTN_1.value).affiche(self.get_fenetre())
@@ -290,14 +299,9 @@ class Interface:
             image.Image(400,595,image.BtnMenu.BTN_0.value).affiche(self.get_fenetre())
             image.Image(500,595,image.BtnMenu.BTN_1.value).affiche(self.get_fenetre())
             deux_visible = False; trois_visible = False
-        if self.get_nb_joueur() != 4:
-            # Texte pour choisir le nombre de joueur
-            texte.Texte("Combien d'IA souhaites-tu intégrer au jeu ?", self.get_couleur().get_Noir(), 30,600).affiche(self.get_police(),self.get_fenetre())
         else:
             image.Image(400,595,image.BtnMenu.BTN_0.value).affiche(self.get_fenetre())
-            texte.Texte("Le nombre de joueurs est complet tu ne peux pas ajouter d'IA", self.get_couleur().get_Noir(), 30,600).affiche(self.get_police(),self.get_fenetre())
-        
-        
+
         pygame.display.update()
 
         #Tant que le prenom n'est pas selectionne
@@ -638,8 +642,10 @@ class Interface:
             # Dessiner le rectangle pour les dialogues
             self.Menu_bas(joueur)
             # Texte pour dire au joueur de rejouer
-            self.set_dialogues(["Tu ne peux pas aller par là, tu as atteint un bord","ou il n'y a pas de cases dans cette direction"])
-            texte.Texte("rejoue ! Tu peux avancer de {} cases ! ".format(face_choisie), self.get_couleur().get_Noir(), 110, 640).affiche(self.get_police(),self.get_fenetre())
+            temp_texte=("rejoue ! Tu peux avancer de {} cases ! ".format(face_choisie))
+            self.set_dialogues([temp_texte, "Tu ne peux pas aller par là, tu as atteint un bord","ou il n'y a pas de cases dans cette direction"])
+            #texte.Texte("rejoue ! Tu peux avancer de {} cases ! ".format(face_choisie), self.get_couleur().get_Noir(), 110, 640).affiche(self.get_police(),self.get_fenetre())
+            self.draw_dialogues()
             self.plateau_cache()
             pygame.display.update()
 
@@ -647,7 +653,10 @@ class Interface:
             # Dessiner le rectangle pour les dialogues
             self.Menu_bas(joueur)
             # Texte pour dire au joueur de rejouer
-            texte.Texte("Tu as atterris sur une case {}".format(self.get_plateau_de_jeu().get_nom(joueur.get_plateaux(),joueur.get_plateauy())), self.get_couleur().get_Noir(), 110, 600).affiche(self.get_police(),self.get_fenetre())
+            temp_texte=("Tu as atterris sur une case {}".format(self.get_plateau_de_jeu().get_nom(joueur.get_plateaux(),joueur.get_plateauy())))
+            self.set_dialogues(temp_texte)
+            self.draw_dialogues()
+            #texte.Texte("Tu as atterris sur une case {}".format(self.get_plateau_de_jeu().get_nom(joueur.get_plateaux(),joueur.get_plateauy())), self.get_couleur().get_Noir(), 110, 600).affiche(self.get_police(),self.get_fenetre())
             pygame.display.update()
             couleur_case = self.get_plateau_de_jeu().get_plateau()[joueur.get_plateaux()][joueur.get_plateauy()]
             image.Image(0,468,image.Page.BAS_PLATEAU.value).affiche(self.get_fenetre())

@@ -135,9 +135,9 @@ class Plateau:
         interface.Menu_bas(joueur)
         # Dessiner le rectangle pour les dialogues
         interface.Menu_bas(joueur)
-        texte.Texte("Tu es tombe dans la case Puit... Pour t'en",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())        
-        texte.Texte("sortir, tu dois sacrifier une de tes cles",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())        
-        texte.Texte("ou 200 pv.",couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())
+        interface.set_dialogues(["Tu es tombe dans la case Puit... Pour t'en","sortir, tu dois sacrifier une de tes cles","ou 200 pv."])
+        interface.draw_dialogues()
+
         
         # Afficher les logos et texte des cles et des pv
         pv = image.Interaction.PV.value
@@ -166,7 +166,8 @@ class Plateau:
                             selection_utilisateur = True
                         else :
                             interface.Menu_bas(joueur)
-                            texte.Texte("Tu n'as pas de cles, donne moi 200 pv",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
+                            interface.set_dialogues(["Tu n'as pas de cles, donne moi 200 pv"])
+                            interface.draw_dialogues()
                             pygame.display.update()
                             
                     elif 510 < mouse_x < 574 and 480 < mouse_y < 544:
@@ -178,17 +179,17 @@ class Plateau:
                         
                         elif joueur.get_inventaire() == [] and joueur.get_pv() > 200:
                             interface.Menu_bas(joueur)
-                            texte.Texte("Tu n'as pas de cles, donne moi 200 pv",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
+                            interface.set_dialogues(["Tu n'as pas de cles, donne moi 200 pv"])
+                            interface.draw_dialogues()
                             pygame.display.update()
                         else :
                             rectangle.Rectangle(500,590,130,35).affiche(interface.get_fenetre(),couleur.Couleur().get_Vert())
                             interface.Menu_bas(joueur)
                             joueur.set_pv(0)
                             interface.Mise_a_jour(joueur)
-                            texte.Texte(joueur.get_pv(),couleur.Couleur().get_Noir(),538,598).affiche(interface.get_police(),interface.get_fenetre())
-                            texte.Texte("Tu n'as pas de cles, ni assez de pv",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())       
-                            texte.Texte("Tu es donc condamne à devoir mourrir et arreter",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())       
-                            texte.Texte("la partie ici.",couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())  
+                            temp_texte=(joueur.get_pv())
+                            interface.set_dialogues([temp_texte,"Tu n'as pas de cles, ni assez de pv","Tu es donc condamne à devoir mourrir et arreter","la partie ici." ])
+                            interface.draw_dialogues()
                             pygame.display.update()  
                             selection_utilisateur = True
         
@@ -394,7 +395,7 @@ class Plateau:
                                 interface.Menu_bas(joueur)
                                 interface.affichage_image(100,400,joueur)
                                 interface.affichage_image_adv(620,400,un_ennemis)
-                                interface.set_dialogues(["Tu as choisi de faire une attaque speciale,","bravo, l'adversaire a perdu {} pvs"])
+                                interface.set_dialogues(["Tu as choisi de faire une attaque speciale,","bravo, l'adversaire a perdu {} pvs".format(pv)])
                                 interface.draw_dialogues()
                             else:
                                 interface.Menu_bas(joueur)
@@ -555,11 +556,8 @@ class Plateau:
                             if tirage == "bravo":
                                 # Cacher les anciens dialogues
                                 interface.Menu_bas(joueur)
-                                interface.set_dialogues(["Bravo tu as gagner !!!","Voilà deux cles supplementaires que tu peux", "voir apparaître dans ton inventaire."])
+                                interface.set_dialogues(["Bravo tu as gagné !!!","Voilà deux cles supplementaires que tu peux", "voir apparaître dans ton inventaire."])
                                 interface.draw_dialogues()
-                                texte.Texte("Bravo tu as gagner !!!",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-                                texte.Texte("Voilà deux cles supplementaires que tu peux",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-                                texte.Texte("voir apparaître dans ton inventaire.",couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())
                                 
                                 pygame.display.update() # Mettre à jour l'affichage    
                                 selection_speciale = True
@@ -568,9 +566,8 @@ class Plateau:
                             else:
                                 # Cacher les anciens dialogues
                                 interface.Menu_bas(joueur)
-                                texte.Texte("Oh non dommage...",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-                                texte.Texte("Tu peux retenter ta chance si tu as",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-                                texte.Texte("d'autres cles :)",couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())
+                                interface.set_dialogues(["Oh non dommage...","Tu peux retenter ta chance si tu as","d'autres cles :)",])
+                                interface.draw_dialogues()
                                 
                                 pygame.display.update() # Mettre à jour l'affichage  
                                 selection_speciale = True
@@ -578,9 +575,7 @@ class Plateau:
                         else:
                             # Cacher les anciens dialogues
                             interface.Menu_bas(joueur)
-                            texte.Texte("Tu ne possede pas de cles.",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-                            texte.Texte("Obtient-en une en tuant un boss sur les",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-                            texte.Texte("cases rouges.",couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())
+                            interface.set_dialogues(["Tu ne possede pas de cles.","Obtient-en une en tuant un boss sur les","cases rouges."])
                             
                             pygame.display.update() # Mettre à jour l'affichage  
                             selection_speciale = True    
@@ -589,7 +584,8 @@ class Plateau:
                         # Si le joueur veut passer sont tour
                         # Cacher les anciens dialogues
                         interface.Menu_bas(joueur)
-                        texte.Texte("Pas de soucis, retente ta chance une autre fois",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
+                        interface.set_dialogues(["Pas de soucis, retente ta chance une autre fois"])
+                        interface.draw_dialogues()
                         pygame.display.update() # Mettre à jour l'affichage 
                         selection_speciale = True
                         
@@ -597,9 +593,8 @@ class Plateau:
     def Action_couleur_Violet(self, interface, joueur):
         # Dessiner le rectangle pour les dialogues
         interface.Menu_bas(joueur)
-        texte.Texte("Tu es sur une case Rejoue !",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-        texte.Texte("Relance le de pour avoir un",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-        texte.Texte("deuxieme lance",couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())
+        interface.set_dialogues(["Tu es sur une case Rejoué !","Relance le dé pour avoir un","deuxième lancé",])
+        interface.draw_dialogues()
         de_face1 = image.De.FACE1.value
         interface.get_fenetre().blit(de_face1,(350,475))
         pygame.display.update()    
@@ -612,9 +607,9 @@ class Plateau:
         image.Image(0,468,image.Page.CHOIX_DOUBLE.value).affiche(interface.get_fenetre())
         # Dessiner le rectangle pour les dialogues
         interface.Menu_bas(joueur)
-        texte.Texte("Tu es devant la Hutte de la sorciere.",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-        texte.Texte("Veux-tu essayer de l'ouvrir à l'aide",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-        texte.Texte("des cles des quatre boss ?",couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())
+        interface.set_dialogues(["Tu es devant la Hutte de la sorciere.","Veux-tu essayer de l'ouvrir à l'aide","des cles des quatre boss ?"])
+        interface.draw_dialogues()
+
 
         # Afficher les logos et texte des cles et des pv
         pv = image.Interaction.CLES
@@ -639,18 +634,16 @@ class Plateau:
                         if joueur.avoir_tt_cles() == True:
                             # Cacher les anciens dialogues
                             interface.Menu_bas(joueur)
-                            texte.Texte("Bravo tu as trouve toutes les cles",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-                            texte.Texte("Ouvre la porte et apprete toi à",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-                            texte.Texte("affronter la sorciere.",couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())
-                            pygame.display.update() # Mettre à jour l'affichage 
+                            interface.set_dialogues(["Bravo tu as trouve toutes les cles","Ouvre la porte et apprete toi à","affronter la sorciere."])
+                            interface.draw_dialogues()
+                            pygame.display.update() # Mettre à jour l'affichage
                             interface.set_etat_de_jeu("fin_du_jeu")
                             selection_sorciere = True
                         else:
                             # Cacher les anciens dialogues
                             interface.Menu_bas(joueur)
-                            texte.Texte("Tu n'as pas encore recuperer toutes",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-                            texte.Texte("les cles afin d'ouvrir la porte de",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-                            texte.Texte("la sorciere. Depeche-toi !",couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())
+                            interface.set_dialogues(["Tu n'as pas encore recuperer toutes","les cles afin d'ouvrir la porte de","la sorciere. Depeche-toi !"])
+                            interface.draw_dialogues()
                             pygame.display.update() # Mettre à jour l'affichage 
                             selection_sorciere = True
                         
@@ -658,8 +651,8 @@ class Plateau:
                         # Si le joueur veut passer sont tour
                         # Cacher les anciens dialogues
                         interface.Menu_bas(joueur)
-                        texte.Texte("Pas de soucis, recupere les cles afin",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-                        texte.Texte("d'ouvrir la porte en premier !",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
+                        interface.set_dialogues(["Pas de soucis, recupere les cles afin","d'ouvrir la porte en premier !"])
+                        interface.draw_dialogues()
                         pygame.display.update() # Mettre à jour l'affichage 
                         selection_sorciere = True
 
@@ -668,9 +661,9 @@ class Plateau:
         interface.Menu_bas(joueur)
         # Dessiner le rectangle pour les dialogues
         interface.Menu_bas(joueur)
-        texte.Texte("Tu es sur une case de Teleportation.",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-        texte.Texte("Veux-tu etre teleporter ?",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-        
+        interface.set_dialogues(["Tu es sur une case de Teleportation.","Veux-tu etre teleporter ?"])
+        interface.draw_dialogues()
+
         
         # Afficher les logos et texte des cles et des pv
         pv = image.Interaction.TP.value
@@ -694,10 +687,9 @@ class Plateau:
                     if 220 < mouse_x < 284 and 480 < mouse_y < 544:
                         # Cacher les anciens dialogues
                         interface.Menu_bas(joueur)
-                        texte.Texte("Tou-dou-dou-doum",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-                        texte.Texte("Teleportation sur la deuxieme case",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-                        texte.Texte("de teleportation" ,couleur.Couleur().get_Noir(),110, 640).affiche(interface.get_police(),interface.get_fenetre())
-                        
+                        interface.set_dialogues(["Tou-dou-dou-doum","Teleportation sur la deuxieme case","de teleportation"])
+                        interface.draw_dialogues()
+
                         pygame.display.update() # Mettre à jour l'affichage 
                         coord_case_indigo = interface.get_plateau_de_jeu().get_case_indigo(joueur)
                         joueur.set_plateaux(coord_case_indigo[0])
@@ -712,9 +704,8 @@ class Plateau:
                         # Si le joueur veut passer sont tour
                         # Cacher les anciens dialogues
                         interface.Menu_bas(joueur)
-                        texte.Texte("Pas de soucis, essaye une prochaine",couleur.Couleur().get_Noir(),110, 600).affiche(interface.get_police(),interface.get_fenetre())
-                        texte.Texte("fois si tu en as l'envie.",couleur.Couleur().get_Noir(),110, 620).affiche(interface.get_police(),interface.get_fenetre())
-                        
+                        interface.set_dialogues(["Pas de soucis, essaye une prochaine","fois si tu en as l'envie."])
+
                         pygame.display.update() # Mettre à jour l'affichage 
                         selection_teleporte = True
         

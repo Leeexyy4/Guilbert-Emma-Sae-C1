@@ -88,7 +88,8 @@ if __name__ == "__main__":
                         else:
                         # Sinon le joueur lance le dé
                             interface.Menu_bas(un_joueur) # Affiche le plateau de jeu avec le personnage choisi
-                            texte.Texte("Clique sur le de ! ",couleur.Couleur().get_Noir(),110,600).affiche(interface.get_police(),interface.get_fenetre())
+                            interface.set_dialogues(["Clique sur le de ! "])
+                            interface.draw_dialogues()
                             pygame.display.update()
                             interface.plateau_cache()
                             interface.Page_direction(un_joueur)
